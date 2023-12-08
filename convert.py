@@ -39,7 +39,7 @@ if hasattr(faulthandler, 'register') and hasattr(signal, 'SIGUSR1'):
 
 NDArray: TypeAlias = 'np.ndarray[Any, Any]'
 
-ARCH = gguf.MODEL_ARCH.LLAMA
+ARCH = gguf.MODEL_ARCH.MOE
 
 DEFAULT_CONCURRENCY = 8
 #
@@ -241,7 +241,7 @@ class Params:
             n_ff              = config["intermediate_size"],
             n_head            = (n_head := config["num_attention_heads"]),
             n_head_kv         = config.get("num_key_value_heads", n_head),
-            f_norm_eps        = config["rms_norm_eps"],
+            f_norm_eps        = config["norm_eps"],
             f_rope_freq_base  = config.get("rope_theta"),
             rope_scaling_type = rope_scaling_type,
             f_rope_scale      = f_rope_scale,
@@ -271,7 +271,7 @@ class Params:
             n_embd           = config["dim"],
             n_layer          = config["n_layers"],
             n_ctx            = n_ctx,
-            n_ff             = model["layers.0.feed_forward.w1.weight"].shape[0],
+            n_ff             = model["layers.0.feed_forward.experts.0.w1.weight"].shape[0],
             n_head           = (n_head := config["n_heads"]),
             n_head_kv        = config.get("n_kv_heads", n_head),
             f_norm_eps       = config["norm_eps"],

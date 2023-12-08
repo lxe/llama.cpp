@@ -93,6 +93,7 @@ class MODEL_ARCH(IntEnum):
     BLOOM     = auto()
     STABLELM  = auto()
     QWEN      = auto()
+    MOE       = auto()
 
 
 class MODEL_TENSOR(IntEnum):
@@ -117,6 +118,30 @@ class MODEL_TENSOR(IntEnum):
     FFN_NORM        = auto()
     ATTN_Q_NORM     = auto()
     ATTN_K_NORM     = auto()
+    FFN_EXPERT_0_W1 = auto()
+    FFN_EXPERT_0_W2 = auto()
+    FFN_EXPERT_0_W3 = auto()
+    FFN_EXPERT_1_W1 = auto()
+    FFN_EXPERT_1_W2 = auto()
+    FFN_EXPERT_1_W3 = auto()
+    FFN_EXPERT_2_W1 = auto()
+    FFN_EXPERT_2_W2 = auto()
+    FFN_EXPERT_2_W3 = auto()
+    FFN_EXPERT_3_W1 = auto()
+    FFN_EXPERT_3_W2 = auto()
+    FFN_EXPERT_3_W3 = auto()
+    FFN_EXPERT_4_W1 = auto()
+    FFN_EXPERT_4_W2 = auto()
+    FFN_EXPERT_4_W3 = auto()
+    FFN_EXPERT_5_W1 = auto()
+    FFN_EXPERT_5_W2 = auto()
+    FFN_EXPERT_5_W3 = auto()
+    FFN_EXPERT_6_W1 = auto()
+    FFN_EXPERT_6_W2 = auto()
+    FFN_EXPERT_6_W3 = auto()
+    FFN_EXPERT_7_W1 = auto()
+    FFN_EXPERT_7_W2 = auto()
+    FFN_EXPERT_7_W3 = auto()
 
 
 MODEL_ARCH_NAMES: dict[MODEL_ARCH, str] = {
@@ -134,6 +159,7 @@ MODEL_ARCH_NAMES: dict[MODEL_ARCH, str] = {
     MODEL_ARCH.BLOOM:          "bloom",
     MODEL_ARCH.STABLELM:       "stablelm",
     MODEL_ARCH.QWEN:           "qwen",
+    MODEL_ARCH.MOE:            "moe",
 }
 
 TENSOR_NAMES: dict[MODEL_TENSOR, str] = {
@@ -158,6 +184,30 @@ TENSOR_NAMES: dict[MODEL_TENSOR, str] = {
     MODEL_TENSOR.FFN_GATE:        "blk.{bid}.ffn_gate",
     MODEL_TENSOR.FFN_DOWN:        "blk.{bid}.ffn_down",
     MODEL_TENSOR.FFN_UP:          "blk.{bid}.ffn_up",
+    MODEL_TENSOR.FFN_EXPERT_0_W1: "layers.{bid}.feed_forward.experts.0.w1",
+    MODEL_TENSOR.FFN_EXPERT_0_W2: "layers.{bid}.feed_forward.experts.0.w2",
+    MODEL_TENSOR.FFN_EXPERT_0_W3: "layers.{bid}.feed_forward.experts.0.w3",
+    MODEL_TENSOR.FFN_EXPERT_1_W1: "layers.{bid}.feed_forward.experts.1.w1",
+    MODEL_TENSOR.FFN_EXPERT_1_W2: "layers.{bid}.feed_forward.experts.1.w2",
+    MODEL_TENSOR.FFN_EXPERT_1_W3: "layers.{bid}.feed_forward.experts.1.w3",
+    MODEL_TENSOR.FFN_EXPERT_2_W1: "layers.{bid}.feed_forward.experts.2.w1",
+    MODEL_TENSOR.FFN_EXPERT_2_W2: "layers.{bid}.feed_forward.experts.2.w2",
+    MODEL_TENSOR.FFN_EXPERT_2_W3: "layers.{bid}.feed_forward.experts.2.w3",
+    MODEL_TENSOR.FFN_EXPERT_3_W1: "layers.{bid}.feed_forward.experts.3.w1",
+    MODEL_TENSOR.FFN_EXPERT_3_W2: "layers.{bid}.feed_forward.experts.3.w2",
+    MODEL_TENSOR.FFN_EXPERT_3_W3: "layers.{bid}.feed_forward.experts.3.w3",
+    MODEL_TENSOR.FFN_EXPERT_4_W1: "layers.{bid}.feed_forward.experts.4.w1",
+    MODEL_TENSOR.FFN_EXPERT_4_W2: "layers.{bid}.feed_forward.experts.4.w2",
+    MODEL_TENSOR.FFN_EXPERT_4_W3: "layers.{bid}.feed_forward.experts.4.w3",
+    MODEL_TENSOR.FFN_EXPERT_5_W1: "layers.{bid}.feed_forward.experts.5.w1",
+    MODEL_TENSOR.FFN_EXPERT_5_W2: "layers.{bid}.feed_forward.experts.5.w2",
+    MODEL_TENSOR.FFN_EXPERT_5_W3: "layers.{bid}.feed_forward.experts.5.w3",
+    MODEL_TENSOR.FFN_EXPERT_6_W1: "layers.{bid}.feed_forward.experts.6.w1",
+    MODEL_TENSOR.FFN_EXPERT_6_W2: "layers.{bid}.feed_forward.experts.6.w2",
+    MODEL_TENSOR.FFN_EXPERT_6_W3: "layers.{bid}.feed_forward.experts.6.w3",
+    MODEL_TENSOR.FFN_EXPERT_7_W1: "layers.{bid}.feed_forward.experts.7.w1",
+    MODEL_TENSOR.FFN_EXPERT_7_W2: "layers.{bid}.feed_forward.experts.7.w2",
+    MODEL_TENSOR.FFN_EXPERT_7_W3: "layers.{bid}.feed_forward.experts.7.w3",
 }
 
 MODEL_TENSORS: dict[MODEL_ARCH, list[MODEL_TENSOR]] = {
@@ -332,6 +382,42 @@ MODEL_TENSORS: dict[MODEL_ARCH, list[MODEL_TENSOR]] = {
         MODEL_TENSOR.FFN_GATE,
         MODEL_TENSOR.FFN_DOWN,
         MODEL_TENSOR.FFN_UP,
+    ],
+    MODEL_ARCH.MOE: [
+        MODEL_TENSOR.TOKEN_EMBD,
+        MODEL_TENSOR.OUTPUT_NORM,
+        MODEL_TENSOR.OUTPUT, 
+        MODEL_TENSOR.ATTN_NORM,
+        MODEL_TENSOR.ATTN_Q, 
+        MODEL_TENSOR.ATTN_K,
+        MODEL_TENSOR.ATTN_V,
+        MODEL_TENSOR.ATTN_OUT,
+        MODEL_TENSOR.FFN_NORM,
+        MODEL_TENSOR.FFN_GATE,
+        MODEL_TENSOR.FFN_EXPERT_0_W1,
+        MODEL_TENSOR.FFN_EXPERT_0_W2,
+        MODEL_TENSOR.FFN_EXPERT_0_W3,
+        MODEL_TENSOR.FFN_EXPERT_1_W1,
+        MODEL_TENSOR.FFN_EXPERT_1_W2,
+        MODEL_TENSOR.FFN_EXPERT_1_W3,
+        MODEL_TENSOR.FFN_EXPERT_2_W1,
+        MODEL_TENSOR.FFN_EXPERT_2_W2,
+        MODEL_TENSOR.FFN_EXPERT_2_W3,
+        MODEL_TENSOR.FFN_EXPERT_3_W1,
+        MODEL_TENSOR.FFN_EXPERT_3_W2,
+        MODEL_TENSOR.FFN_EXPERT_3_W3,
+        MODEL_TENSOR.FFN_EXPERT_4_W1,
+        MODEL_TENSOR.FFN_EXPERT_4_W2,
+        MODEL_TENSOR.FFN_EXPERT_4_W3,
+        MODEL_TENSOR.FFN_EXPERT_5_W1,
+        MODEL_TENSOR.FFN_EXPERT_5_W2,
+        MODEL_TENSOR.FFN_EXPERT_5_W3,
+        MODEL_TENSOR.FFN_EXPERT_6_W1,
+        MODEL_TENSOR.FFN_EXPERT_6_W2,
+        MODEL_TENSOR.FFN_EXPERT_6_W3,
+        MODEL_TENSOR.FFN_EXPERT_7_W1,
+        MODEL_TENSOR.FFN_EXPERT_7_W2,
+        MODEL_TENSOR.FFN_EXPERT_7_W3,
     ],
     MODEL_ARCH.GPT2: [
         # TODO

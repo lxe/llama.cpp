@@ -169,6 +169,7 @@ class TensorNameMap:
             "model.layers.{bid}.mlp.gate_proj",  # llama-hf refact
             "layers.{bid}.feed_forward.w1",      # llama-pth
             "transformer.h.{bid}.mlp.w2",        # qwen
+            "layers.{bid}.feed_forward.gate"     # moe
         ),
 
         # Feed-forward down
@@ -196,6 +197,102 @@ class TensorNameMap:
         MODEL_TENSOR.ROPE_FREQS: (
             "language_model.encoder.layers.{bid}.self_attention.rotary_emb.inv_freq",  # persimmon
         ),
+
+        MODEL_TENSOR.FFN_EXPERT_0_W1: (
+            "layers.{bid}.feed_forward.experts.0.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_0_W2: (
+            "layers.{bid}.feed_forward.experts.0.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_0_W3: (
+            "layers.{bid}.feed_forward.experts.0.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_1_W1: (
+            "layers.{bid}.feed_forward.experts.1.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_1_W2: (
+            "layers.{bid}.feed_forward.experts.1.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_1_W3: (
+            "layers.{bid}.feed_forward.experts.1.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_2_W1: (
+            "layers.{bid}.feed_forward.experts.2.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_2_W2: (
+            "layers.{bid}.feed_forward.experts.2.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_2_W3: (
+            "layers.{bid}.feed_forward.experts.2.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_3_W1: (
+            "layers.{bid}.feed_forward.experts.3.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_3_W2: (
+            "layers.{bid}.feed_forward.experts.3.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_3_W3: (
+            "layers.{bid}.feed_forward.experts.3.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_4_W1: (
+            "layers.{bid}.feed_forward.experts.4.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_4_W2: (
+            "layers.{bid}.feed_forward.experts.4.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_4_W3: (
+            "layers.{bid}.feed_forward.experts.4.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_5_W1: (
+            "layers.{bid}.feed_forward.experts.5.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_5_W2: (
+            "layers.{bid}.feed_forward.experts.5.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_5_W3: (
+            "layers.{bid}.feed_forward.experts.5.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_6_W1: (
+            "layers.{bid}.feed_forward.experts.6.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_6_W2: (
+            "layers.{bid}.feed_forward.experts.6.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_6_W3: (
+            "layers.{bid}.feed_forward.experts.6.w3",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_7_W1: (
+            "layers.{bid}.feed_forward.experts.7.w1",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_7_W2: (
+            "layers.{bid}.feed_forward.experts.7.w2",
+        ),
+
+        MODEL_TENSOR.FFN_EXPERT_7_W3: (
+            "layers.{bid}.feed_forward.experts.7.w3",
+        ),
     }
 
     mapping: dict[str, tuple[MODEL_TENSOR, str]]
@@ -211,6 +308,7 @@ class TensorNameMap:
                 self.mapping[key] = (tensor, tensor_name)
         for bid in range(n_blocks):
             for tensor, keys in self.block_mappings_cfg.items():
+                print(tensor, keys)
                 if tensor not in MODEL_TENSORS[arch]:
                     continue
                 tensor_name = TENSOR_NAMES[tensor].format(bid = bid)
